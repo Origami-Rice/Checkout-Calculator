@@ -1,5 +1,4 @@
 django
-gunicorn
 django-heroku
 click==7.1.2
 Flask==1.1.2
