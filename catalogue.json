@@ -1,0 +1,12 @@
+{
+  "catalogue": [
+    {
+      "name": "name1",
+      "price": 2
+    },
+    {
+      "name": "name2",
+      "price": 3
+    }
+  ]
+}
