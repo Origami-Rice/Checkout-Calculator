@@ -1,0 +1,10 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 12576,
+  "expoServerNgrokUrl": "https://gp-8pk.anonymous.calculator-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.gp-8pk.anonymous.calculator-app.exp.direct",
+  "ngrokPid": 19028,
+  "webpackServerPort": null
+}
