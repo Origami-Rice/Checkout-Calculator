@@ -1,1 +1,1 @@
-web: gunicorn ./mobile_app/backend/ main:app
+web: gunicorn mobile_app.backend.main:app
