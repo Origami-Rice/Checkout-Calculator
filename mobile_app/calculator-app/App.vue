@@ -36,9 +36,10 @@
       <text class="total-cost">${{total}}</text>
     </view>
     <button class="compute" title="Compute" :on-press="() => computeTotal()"></button>
-    <view>
-      <text class="fruits" v-for="item in items" :key="item.id">{{item.title}}</text>
+    <view class="output">
+      <text class="total-cost"></text>
     </view>
+    <button class="submit" title="Submit" :on-press="() => submit()"></button>
   </view>
 </template>
 
@@ -87,6 +88,7 @@ export default {
       this.items.push({
         id: this.items.length + 1,
         title: this.newItemText,
+        price: 5,
         quantity: 1,
       });
       this.newItemText = "";
@@ -113,6 +115,21 @@ export default {
         (parseInt(1) - parseFloat(this.newDiscount)) *
         (parseInt(1) + parseFloat(this.newTax));
       this.total = this.total.toFixed(2);
+    },
+
+    submit() {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.items),
+      };
+
+      fetch("https://uoftcsc301.herokuapp.com/submit", requestOptions);
+      /*
+        fetch("http://localhost:5000/submit")
+          .then((response) => response.json())
+          .then((data) => (this.items = data.catalogue));
+          */
     },
   },
 };
