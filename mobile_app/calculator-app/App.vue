@@ -36,9 +36,7 @@
       <text class="total-cost">${{total}}</text>
     </view>
     <button class="compute" title="Compute" :on-press="() => computeTotal()"></button>
-    <view class="output">
-      <text class="total-cost"></text>
-    </view>
+    <button class="reset" title="Reset" :on-press="() => reset()"></button>
     <button class="submit" title="Submit" :on-press="() => submit()"></button>
   </view>
 </template>
@@ -130,6 +128,12 @@ export default {
           .then((response) => response.json())
           .then((data) => (this.items = data.catalogue));
           */
+    },
+    reset() {
+      fetch("https://uoftcsc301.herokuapp.com/getCatalogue")
+        .then((resp) => resp.json())
+        .then((datat) => (this.items = datat.catalogue));
+      this.total = 0;
     },
   },
 };
