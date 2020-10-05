@@ -29,7 +29,7 @@ def post_order():
 
 @app.route('/getOrder', methods=['GET'])
 def get_order():
-    with open('order.json') as f:
+    with open('mobile_app/backend/order.json') as f:
         order=json.load(f)
     f.close
     return jsonify(order)
