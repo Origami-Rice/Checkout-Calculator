@@ -14,7 +14,7 @@
       <text-input class="input" placeholder="Discount" v-model="newDiscount" />
     </view>
     <scroll-view>
-      <view class="item" v-for="item in items" :key="item.id">
+      <view class="item" v-for="item in items" :key="item.title">
         <text class="item-text">{{item.title}}</text>
         <text class="price">${{item.price}}</text>
         <text class="quantity">{{item.quantity}}</text>
@@ -25,7 +25,7 @@
           <touchable-opacity class="minus-btn" :on-press="() => minusItem(item)">
             <text class="minus-btn-text">-</text>
           </touchable-opacity>
-          <touchable-opacity class="remove-btn" :on-press="() => removeItem(item.id)">
+          <touchable-opacity class="remove-btn" :on-press="() => removeItem(item.title)">
             <text class="remove-btn-text">x</text>
           </touchable-opacity>
         </view>
@@ -82,6 +82,7 @@ export default {
       .then((resp) => resp.json())
       .then((datat) => (this.items = datat.catalogue));
   },
+
   mounted() {
     fetch("https://uoftcsc301.herokuapp.com/getCatalogue")
       .then((resp) => resp.json())
@@ -123,8 +124,8 @@ export default {
 
       this.newItemText = "";
     },
-    removeItem(id) {
-      this.items = this.items.filter((item) => item.id !== id);
+    removeItem(title) {
+      this.items = this.items.filter((item) => item.title !== title);
     },
     plusItem(item) {
       item.quantity = item.quantity + 1;
@@ -132,7 +133,7 @@ export default {
     minusItem(item) {
       item.quantity = item.quantity - 1;
       if (item.quantity == 0) {
-        this.removeItem(item.id);
+        this.removeItem(item.title);
       }
     },
     computeTotal() {
@@ -155,11 +156,6 @@ export default {
       };
 
       fetch("https://uoftcsc301.herokuapp.com/submit", requestOptions);
-      /*
-        fetch("http://localhost:5000/submit")
-          .then((response) => response.json())
-          .then((data) => (this.items = data.catalogue));
-          */
     },
     reset() {
       fetch("https://uoftcsc301.herokuapp.com/getCatalogue")
