@@ -18,9 +18,10 @@ def get_hello():
     return 'Hello World!'
 
 
-@app.route('/getTotal/<int:price>/<int:quantities>', methods=['GET'])
-def get_total(price, quantities):
-    return str(price * quantities)
+@app.route('/getTotal/<int:price>/<int:quantities>/<int:tax>/<int:discount>', methods=['GET'])
+def get_total(price, quantities, tax, discount):
+    return str(round(price * quantities + tax * (price * quantities) / 100 - discount *
+     (price * quantities) / 100, 2))
 
 
 @app.route('/submit', methods=['POST', 'GET'])

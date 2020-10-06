@@ -66,14 +66,15 @@ export default {
       .then((resp) => resp.json())
       .then((datat) => (this.items = datat.catalogue));
   },
-
   mounted() {
     fetch("https://uoftcsc301.herokuapp.com/getCatalogue")
       .then((resp) => resp.json())
       .then((datat) => (this.inventory = datat.catalogue));
   },
+  
   methods: {
     newItem() {
+      this.newItemText = this.newItemText.trim(); 
       /*if the new item is already in the list, just increase the quantity by 1 */
       for (var i = 0; i < this.items.length; i++) {
         if (this.items[i].title == this.newItemText) {
@@ -97,6 +98,8 @@ export default {
           price: existingPrice,
           quantity: 1,
         });
+      } else {
+        alert("Item does not exist"); 
       }
       this.newItemText = "";
     },
@@ -114,13 +117,18 @@ export default {
     },
     computeTotal() {
       this.total = 0;
-      for (var i = 0; i < this.items.length; i++) {
-        this.total += this.items[i].price * this.items[i].quantity;
+      if (this.newTax >= 0 && this.newTax <= 100 && this.newDiscount >= 0 && this.newDiscount <= 100){
+        for (var i = 0; i < this.items.length; i++) {
+          this.total += this.items[i].price * this.items[i].quantity;
+        }
+        var tax = this.total * parseFloat(this.newTax) / 100;
+        var discount = this.total * parseFloat(this.newDiscount) / 100;
+        this.total += tax - discount; 
+        this.total = this.total.toFixed(2);
+      } else {
+        alert("Invalid tax or discount."); 
       }
-      var tax = this.total * parseFloat(this.newTax) / 100;
-      var discount = this.total * parseFloat(this.newDiscount) / 100;
-      this.total += tax - discount; 
-      this.total = this.total.toFixed(2);
+      
     },
 
     submit() {
