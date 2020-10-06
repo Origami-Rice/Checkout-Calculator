@@ -11,6 +11,24 @@
       "title": "Orange",
       "price": 3,
       "quantity": 1
+    },
+    {
+      "id": 2,
+      "title": "Headphones",
+      "price": 150,
+      "quantity": 1
+    },
+    {
+      "id": 3,
+      "title": "Pear",
+      "price": 3,
+      "quantity": 1
+    },
+    {
+      "id": 4,
+      "title": "Grape",
+      "price": 4,
+      "quantity": 1
     }
   ]
 }
