@@ -33,7 +33,7 @@
     </scroll-view>
 
     <view class="output">
-      <text class="total-cost">${{total}}</text>
+      <text class="total-cost">Total ${{total}}</text>
     </view>
     <button class="compute" title="Compute" :on-press="() => computeTotal()"></button>
     <button class="reset" title="Reset" :on-press="() => reset()"></button>
@@ -73,6 +73,7 @@ export default {
       newTax: 0,
       total: 0,
       items: {},
+      inventory: {},
     };
   },
 
@@ -81,14 +82,45 @@ export default {
       .then((resp) => resp.json())
       .then((datat) => (this.items = datat.catalogue));
   },
+  mounted() {
+    fetch("https://uoftcsc301.herokuapp.com/getCatalogue")
+      .then((resp) => resp.json())
+      .then((datat) => (this.inventory = datat.catalogue));
+  },
   methods: {
     newItem() {
-      this.items.push({
-        id: this.items.length + 1,
-        title: this.newItemText,
-        price: 5,
-        quantity: 1,
-      });
+      /*if the new item is already in the list, just increase the quantity by 1 */
+      for (var i = 0; i < this.items.length; i++) {
+        if (this.items[i].title == this.newItemText) {
+          this.items[i].quantity += 1;
+          this.newItemText = "";
+          return;
+        }
+      }
+
+      var existingPrice = 0;
+      for (var j = 0; j < this.inventory.length; j++) {
+        if (this.inventory[j].title == this.newItemText) {
+          existingPrice = this.inventory[j].price;
+        }
+      }
+      /*if newItem is in inventory list, retrieve the price */
+      if (existingPrice == 0) {
+        this.items.push({
+          id: this.items.length + 1,
+          title: this.newItemText,
+          price: 5,
+          quantity: 1,
+        });
+      } else {
+        this.items.push({
+          id: this.items.length + 1,
+          title: this.newItemText,
+          price: existingPrice,
+          quantity: 1,
+        });
+      }
+
       this.newItemText = "";
     },
     removeItem(id) {
