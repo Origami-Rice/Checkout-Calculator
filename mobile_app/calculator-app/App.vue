@@ -10,8 +10,8 @@
       </touchable-opacity>
     </view>
     <view class="info-container">
-      <text-input class="input" placeholder="Tax" v-model="newTax" />
-      <text-input class="input" placeholder="Discount" v-model="newDiscount" />
+      <text-input class="input" placeholder="Tax (%)" v-model="newTax" />
+      <text-input class="input" placeholder="Discount (%)" v-model="newDiscount" />
     </view>
     <scroll-view>
       <view class="item" v-for="item in items" :key="item.title">
@@ -53,22 +53,6 @@ export default {
   data() {
     return {
       newItemText: "",
-      /*
-      items: [
-        {
-          id: 0,
-          title: "Apple",
-          price: 2,
-          quantity: 1,
-        },
-        {
-          id: 1,
-          title: "Orange",
-          price: 3,
-          quantity: 1,
-        },
-      ],
-*/
       newDiscount: 0,
       newTax: 0,
       total: 0,
@@ -99,21 +83,14 @@ export default {
         }
       }
 
-      var existingPrice = 0;
+      var existingPrice = -1;
       for (var j = 0; j < this.inventory.length; j++) {
         if (this.inventory[j].title == this.newItemText) {
           existingPrice = this.inventory[j].price;
         }
       }
       /*if newItem is in inventory list, retrieve the price */
-      if (existingPrice == 0) {
-        this.items.push({
-          id: this.items.length + 1,
-          title: this.newItemText,
-          price: 5,
-          quantity: 1,
-        });
-      } else {
+      if (!(existingPrice == -1)) {
         this.items.push({
           id: this.items.length + 1,
           title: this.newItemText,
@@ -121,7 +98,6 @@ export default {
           quantity: 1,
         });
       }
-
       this.newItemText = "";
     },
     removeItem(title) {
@@ -141,10 +117,9 @@ export default {
       for (var i = 0; i < this.items.length; i++) {
         this.total += this.items[i].price * this.items[i].quantity;
       }
-      this.total =
-        this.total *
-        (parseInt(1) - parseFloat(this.newDiscount)) *
-        (parseInt(1) + parseFloat(this.newTax));
+      var tax = this.total * parseFloat(this.newTax) / 100;
+      var discount = this.total * parseFloat(this.newDiscount) / 100;
+      this.total += tax - discount; 
       this.total = this.total.toFixed(2);
     },
 
